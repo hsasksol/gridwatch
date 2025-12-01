@@ -44,11 +44,11 @@ export default function DashboardPage() {
   // Calculate value based on unit
   const getDisplayValue = (type) => {
     switch (unit) {
-      case 'nok':
+      case 'usd':
         return type === 'total' ? formatNumber(stats.totalCost, 0) : formatNumber(stats.totalCost / filteredData.length, 1);
       case 'co2':
         return type === 'total' ? formatNumber(stats.co2, 1) : formatNumber(stats.co2 / filteredData.length, 2);
-      default:
+      default: // kwh
         return type === 'total' ? formatNumber(stats.totalEnergy, 0) : formatNumber(stats.avgPower, 1);
     }
   };
@@ -59,7 +59,7 @@ export default function DashboardPage() {
         return 'USD';
       case 'co2':
         return 'kg CO₂';
-      default:
+      default: // kwh
         return 'kWh';
     }
   };
