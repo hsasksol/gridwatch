@@ -3,11 +3,13 @@ export default function Toggle({ label, enabled, onChange, className = '' }) {
     <button
       type="button"
       onClick={onChange}
-      className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
+      className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
         enabled
-          ? 'border-[#47B79F] shadow-sm font-medium' : 'bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-400'
+          ? 'shadow-sm font-medium' : 'bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-400'
       } ${className}`}
-      style={enabled ? { backgroundColor: 'rgba(71, 183, 159, 0.1)', color: '#47B79F' } : {}}
+      style={enabled ? { backgroundColor: 'rgba(45, 138, 119, 0.1)', color: '#2d8a77', border: '1px solid #2d8a77' } : {}}
+      aria-pressed={enabled}
+      aria-label={`${enabled ? 'Disable' : 'Enable'} ${label}`}
     >
       <div
         className="w-10 h-5 rounded-full relative border"

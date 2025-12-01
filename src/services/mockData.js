@@ -1,25 +1,35 @@
 import { DEVICE_TYPES, TARIFFS } from '../utils/constants';
 
+// Constants for consumption calculations
+const BASE_CONSUMPTION_FACTOR = 0.3;
+const PEAK_CONSUMPTION_MIN = 0.8;
+const PEAK_CONSUMPTION_VARIANCE = 0.4;
+const OFF_PEAK_MIN = 0.1;
+const OFF_PEAK_VARIANCE = 0.3;
+const WEEKEND_EV_REDUCTION = 0.7;
+const CONSUMPTION_NOISE = 0.5;
+const CO2_EMISSION_FACTOR = 0.053; // kg CO2 per kWh (Norwegian grid average)
+
 // Generate realistic consumption pattern for a device
 function generateDeviceConsumption(deviceType, hour, dayOfWeek) {
   const device = DEVICE_TYPES[deviceType];
   const isPeakHour = device.peakHours?.includes(hour);
   const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
 
-  let consumption = device.avgKw * 0.3; // Base consumption
+  let consumption = device.avgKw * BASE_CONSUMPTION_FACTOR;
 
   if (isPeakHour) {
-    consumption = device.avgKw * (0.8 + Math.random() * 0.4);
+    consumption = device.avgKw * (PEAK_CONSUMPTION_MIN + Math.random() * PEAK_CONSUMPTION_VARIANCE);
   } else {
-    consumption = device.avgKw * (0.1 + Math.random() * 0.3);
+    consumption = device.avgKw * (OFF_PEAK_MIN + Math.random() * OFF_PEAK_VARIANCE);
   }
 
   // Weekend patterns
   if (isWeekend && deviceType === 'evCharging') {
-    consumption *= 0.7; // Less EV charging on weekends
+    consumption *= WEEKEND_EV_REDUCTION;
   }
 
-  return Math.max(0, consumption + (Math.random() - 0.5) * 0.5);
+  return Math.max(0, consumption + (Math.random() - 0.5) * CONSUMPTION_NOISE);
 }
 
 // Calculate spot price (simplified)

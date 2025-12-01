@@ -79,7 +79,8 @@ export default function useEnergyData(data) {
     const peakPower = Math.max(...filteredData.map((r) => r.total));
     const avgSpotPrice =
       filteredData.reduce((sum, record) => sum + record.spotPrice, 0) / filteredData.length;
-    const co2 = totalEnergy * 0.053; // kg CO2 per kWh (Norwegian grid average)
+    const CO2_EMISSION_FACTOR = 0.053; // kg CO2 per kWh (Norwegian grid average)
+    const co2 = totalEnergy * CO2_EMISSION_FACTOR;
 
     return {
       totalEnergy,

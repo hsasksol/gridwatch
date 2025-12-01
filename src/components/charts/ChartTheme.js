@@ -1,4 +1,10 @@
 import Highcharts from 'highcharts';
+import accessibility from 'highcharts/modules/accessibility';
+
+// Initialize accessibility module
+if (typeof accessibility === 'function') {
+  accessibility(Highcharts);
+}
 
 // Function to get theme-aware colors
 export const getChartTheme = (isDark = true) => {
@@ -52,6 +58,12 @@ export const getChartTheme = (isDark = true) => {
         },
       },
       credits: { enabled: false },
+      accessibility: {
+        enabled: true,
+        keyboardNavigation: {
+          enabled: true
+        }
+      },
     };
   } else {
     return {
@@ -101,6 +113,12 @@ export const getChartTheme = (isDark = true) => {
         },
       },
       credits: { enabled: false },
+      accessibility: {
+        enabled: true,
+        keyboardNavigation: {
+          enabled: true
+        }
+      },
     };
   }
 };

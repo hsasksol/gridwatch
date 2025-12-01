@@ -4,12 +4,21 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [isDark, setIsDark] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    return saved === 'dark';
+    try {
+      const saved = localStorage.getItem('theme');
+      return saved === 'dark';
+    } catch (error) {
+      console.warn('localStorage not available:', error);
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
   });
 
   useEffect(() => {
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    try {
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    } catch (error) {
+      console.warn('Could not save theme preference:', error);
+    }
     if (isDark) {
       document.documentElement.classList.add('dark');
     } else {

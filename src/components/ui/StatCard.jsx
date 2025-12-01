@@ -7,7 +7,7 @@ const variants = {
 };
 
 const brandStyle = {
-  color: '#47B79F',
+  color: '#2d8a77',
 };
 
 export default function StatCard({

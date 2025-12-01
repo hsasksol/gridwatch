@@ -42,21 +42,32 @@ export default function SettingsPage() {
           <h3 className="font-heading text-lg mb-4 text-gray-900 dark:text-white">Preferences</h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Monthly Budget</label>
+              <label htmlFor="budget-input" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Monthly Budget</label>
               <input
+                id="budget-input"
                 type="number"
+                min="0"
+                max="10000"
+                step="1"
                 className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white font-mono focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-colors"
                 placeholder="120"
+                aria-describedby="budget-help"
               />
+              <span id="budget-help" className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">USD (0-10,000)</span>
             </div>
             <div>
-              <label className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Alert When Usage Exceeds</label>
+              <label htmlFor="alert-input" className="block text-sm text-gray-600 dark:text-gray-400 mb-2">Alert When Usage Exceeds</label>
               <input
+                id="alert-input"
                 type="number"
+                min="0"
+                max="50"
+                step="0.1"
                 className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white font-mono focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 focus:outline-none transition-colors"
                 placeholder="10"
+                aria-describedby="alert-help"
               />
-              <span className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">kW</span>
+              <span id="alert-help" className="text-xs text-gray-500 dark:text-gray-400 mt-1 block">kW (0-50)</span>
             </div>
           </div>
           <div className="mt-6">

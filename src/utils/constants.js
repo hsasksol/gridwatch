@@ -49,5 +49,3 @@ export const TARIFFS = {
   energyNight: 0.05, // USD/kWh 22:00-06:00 (converted from 0.5 NOK)
   energyWeekend: 0.055, // USD/kWh (converted from 0.55 NOK)
 };
-
-export const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

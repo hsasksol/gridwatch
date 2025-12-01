@@ -47,8 +47,9 @@ export default function FilterBar({
             variant="secondary"
             onClick={onRefresh}
             className="flex items-center gap-2"
+            aria-label="Refresh energy data"
           >
-            <ArrowPathIcon className="w-4 h-4" />
+            <ArrowPathIcon className="w-4 h-4" aria-hidden="true" />
             Refresh Data
           </Button>
         </div>
