@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import HighchartsReact from '@highcharts/react';
 import sankey from 'highcharts/modules/sankey';
 import dependencyWheel from 'highcharts/modules/dependency-wheel';
 import { useTheme } from '../../context/ThemeContext';

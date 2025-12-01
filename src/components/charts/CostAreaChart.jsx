@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import HighchartsReact from '@highcharts/react';
 import './ChartTheme';
 
 export default function CostAreaChart({ data, budget }) {

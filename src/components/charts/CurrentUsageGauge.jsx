@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import HighchartsReact from '@highcharts/react';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
 import { useTheme } from '../../context/ThemeContext';
