@@ -1,0 +1,93 @@
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import highchartsMore from 'highcharts/highcharts-more';
+import solidGauge from 'highcharts/modules/solid-gauge';
+import { useTheme } from '../../context/ThemeContext';
+import './ChartTheme';
+
+if (typeof highchartsMore === 'function') {
+  highchartsMore(Highcharts);
+}
+if (typeof solidGauge === 'function') {
+  solidGauge(Highcharts);
+}
+
+export default function CurrentUsageGauge({ value = 0, max = 15 }) {
+  const { isDark } = useTheme();
+  const textColor = isDark ? '#fff' : '#111827';
+  const labelColor = isDark ? '#8892a0' : '#6b7280';
+  const bgColor = isDark ? '#1a1a24' : '#f3f4f6';
+  
+  const options = {
+    chart: {
+      type: 'solidgauge',
+      height: 280,
+      backgroundColor: 'transparent',
+    },
+    title: null,
+    pane: {
+      center: ['50%', '70%'],
+      size: '120%',
+      startAngle: -90,
+      endAngle: 90,
+      background: {
+        backgroundColor: bgColor,
+        innerRadius: '60%',
+        outerRadius: '100%',
+        shape: 'arc',
+        borderWidth: 0,
+      },
+    },
+    yAxis: {
+      min: 0,
+      max,
+      stops: [
+        [0.2, '#c7f9cc'],
+        [0.5, '#57cc99'],
+        [0.8, '#38a3a5'],
+        [1, '#22577a'],
+      ],
+      lineWidth: 0,
+      tickWidth: 0,
+      minorTickInterval: null,
+      tickAmount: 0,
+      labels: { enabled: false },
+    },
+    series: [
+      {
+        name: 'Power',
+        data: [value],
+        dataLabels: {
+          format:
+            `<span style="font-size:32px;font-family:Outfit, sans-serif;color:${textColor}">{y:.1f}</span><br/>` +
+            `<span style="font-size:14px;font-family:Outfit, sans-serif;color:${labelColor}">kW</span>`,
+          borderWidth: 0,
+          y: -20,
+        },
+        tooltip: {
+          valueSuffix: ' kW',
+          valueDecimals: 1,
+        },
+      },
+    ],
+    plotOptions: {
+      solidgauge: {
+        innerRadius: '60%',
+        dataLabels: {
+          y: -30,
+          borderWidth: 0,
+          useHTML: true,
+        },
+      },
+    },
+  };
+
+  return (
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 transition-colors">
+      <h3 className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-medium mb-2">
+        Current Usage
+      </h3>
+      <HighchartsReact highcharts={Highcharts} options={options} />
+    </div>
+  );
+}
