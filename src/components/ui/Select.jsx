@@ -2,7 +2,7 @@ export default function Select({ label, value, onChange, options, className = ''
   return (
     <div className={`flex flex-col gap-1 ${className}`}>
       {label && (
-        <label className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-widest font-bold">
+        <label className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-medium">
           {label}
         </label>
       )}

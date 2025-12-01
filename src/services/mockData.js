@@ -138,14 +138,20 @@ export function getTodayStreamData(data) {
     todayData.push(...data.slice(-24));
   }
 
-  const series = Object.keys(DEVICE_TYPES).map((deviceType) => {
+  // Get unique device types from filtered data
+  const deviceTypesInData = new Set();
+  todayData.forEach(record => {
+    Object.keys(record.devices).forEach(deviceType => deviceTypesInData.add(deviceType));
+  });
+
+  const series = Array.from(deviceTypesInData).map((deviceType) => {
     const device = DEVICE_TYPES[deviceType];
     return {
       name: device.label,
-      data: todayData.map((record, index) => [index, record.devices[deviceType]]),
+      data: todayData.map((record, index) => [index, record.devices[deviceType] || 0]),
       color: device.color,
     };
-  });
+  }).filter(series => series.data.some(point => point[1] > 0)); // Only include series with data
 
   return series;
 }
@@ -154,12 +160,12 @@ export function getTodayStreamData(data) {
 export function getDeviceBreakdown(data) {
   const totals = {};
 
-  Object.keys(DEVICE_TYPES).forEach((deviceType) => {
-    totals[deviceType] = 0;
-  });
-
+  // Only calculate totals for devices that exist in the filtered data
   data.forEach((record) => {
     Object.keys(record.devices).forEach((deviceType) => {
+      if (!totals[deviceType]) {
+        totals[deviceType] = 0;
+      }
       totals[deviceType] += record.devices[deviceType];
     });
   });
