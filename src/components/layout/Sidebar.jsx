@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   HomeIcon,
   CpuChipIcon,
@@ -23,14 +23,14 @@ export default function Sidebar() {
       aria-label="Main navigation"
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 px-4 py-6 mb-6">
+      <Link to="/" className="flex items-center gap-3 px-4 py-6 mb-6 hover:opacity-80 transition-opacity">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg" style={{ backgroundColor: '#47B79F' }}>
           <span className="text-white font-semibold text-xl" aria-hidden="true">⚡</span>
         </div>
         <span className="font-semibold text-xl tracking-wider text-gray-900 dark:text-white">
           GRID<span style={{ color: '#2d8a77' }}>WATCH</span>
         </span>
-      </div>
+      </Link>
 
       {/* Navigation */}
       <nav className="space-y-1">

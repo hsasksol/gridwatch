@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import Layout from './components/layout/Layout';
 
@@ -25,7 +25,7 @@ function LoadingFallback() {
 export default function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
+      <HashRouter>
         <Layout>
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
@@ -37,7 +37,7 @@ export default function App() {
             </Routes>
           </Suspense>
         </Layout>
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   );
 }

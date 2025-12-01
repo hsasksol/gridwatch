@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/gridwatch/',
   cacheDir: '../.vite-cache',
   server: {
     port: 3000,
