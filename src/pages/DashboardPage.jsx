@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { BoltIcon, FireIcon, CurrencyDollarIcon, CloudIcon } from '@heroicons/react/24/outline';
 import StatCard from '../components/ui/StatCard';
 import FilterBar from '../components/dashboard/FilterBar';
 import DeviceFilter from '../components/dashboard/DeviceFilter';
-import CurrentUsageGauge from '../components/charts/CurrentUsageGauge';
-import DailyStreamGraph from '../components/charts/DailyStreamGraph';
-import DeviceBreakdownWheel from '../components/charts/DeviceBreakdownWheel';
-import CostAreaChart from '../components/charts/CostAreaChart';
+const CurrentUsageGauge = React.lazy(() => import('../components/charts/CurrentUsageGauge'));
+const DailyStreamGraph = React.lazy(() => import('../components/charts/DailyStreamGraph'));
+const DeviceBreakdownWheel = React.lazy(() => import('../components/charts/DeviceBreakdownWheel'));
+const CostAreaChart = React.lazy(() => import('../components/charts/CostAreaChart'));
 import useEnergyData from '../hooks/useEnergyData';
 import {
   mockEnergyData,
@@ -111,21 +111,25 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* Main Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-1">
-          <CurrentUsageGauge value={currentUsage} max={15} />
+      {/* Main Charts (lazy-loaded) */}
+      <Suspense fallback={<div className="grid grid-cols-1 lg:grid-cols-3 gap-6"><div className="col-span-1"><div className="bg-white dark:bg-gray-800 rounded-xl p-4 h-48 animate-pulse"/></div><div className="col-span-2"><div className="bg-white dark:bg-gray-800 rounded-xl p-4 h-48 animate-pulse"/></div></div>}>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-1">
+            <CurrentUsageGauge value={currentUsage} max={15} />
+          </div>
+          <div className="lg:col-span-2">
+            <DailyStreamGraph data={streamData} />
+          </div>
         </div>
-        <div className="lg:col-span-2">
-          <DailyStreamGraph data={streamData} />
-        </div>
-      </div>
+      </Suspense>
 
-      {/* Secondary Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <DeviceBreakdownWheel data={wheelData} />
-        <CostAreaChart data={costData} budget={1200} />
-      </div>
+      {/* Secondary Charts (lazy-loaded) */}
+      <Suspense fallback={<div className="grid grid-cols-1 lg:grid-cols-2 gap-6"><div className="bg-white dark:bg-gray-800 rounded-xl p-4 h-48 animate-pulse"/><div className="bg-white dark:bg-gray-800 rounded-xl p-4 h-48 animate-pulse"/></div>}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <DeviceBreakdownWheel data={wheelData} />
+          <CostAreaChart data={costData} budget={1200} />
+        </div>
+      </Suspense>
     </div>
   );
 }

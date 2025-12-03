@@ -1,33 +1,33 @@
 import Highcharts from 'highcharts';
-import HighchartsReact from '@highcharts/react';
+import { Chart as HighchartsChart } from '@highcharts/react';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
 import { useTheme } from '../../context/ThemeContext';
 import './ChartTheme';
 
-if (typeof highchartsMore === 'function') {
-  highchartsMore(Highcharts);
+if (typeof HighchartsMore === 'function') {
+  HighchartsMore(Highcharts);
 }
-if (typeof solidGauge === 'function') {
-  solidGauge(Highcharts);
+if (typeof SolidGauge === 'function') {
+  SolidGauge(Highcharts);
 }
 
 export default function CurrentUsageGauge({ value = 0, max = 15 }) {
   const { isDark } = useTheme();
   const textColor = isDark ? '#fff' : '#111827';
   const labelColor = isDark ? '#8892a0' : '#6b7280';
-  const bgColor = isDark ? '#1a1a24' : '#f3f4f6';
+  const bgColor = isDark ? '#22577a' : '#f3f4f6';
   
   const options = {
     chart: {
       type: 'solidgauge',
-      height: 280,
+      height: null,
       backgroundColor: 'transparent',
     },
-    title: null,
+    title: { text: undefined },
     pane: {
-      center: ['50%', '70%'],
-      size: '120%',
+      center: ['50%', '60%'],
+      size: '100%',
       startAngle: -90,
       endAngle: 90,
       background: {
@@ -87,7 +87,9 @@ export default function CurrentUsageGauge({ value = 0, max = 15 }) {
       <h3 className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-medium mb-2">
         Current Usage
       </h3>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <div className="w-full min-h-[200px] md:min-h-[280px]">
+        <HighchartsChart highcharts={Highcharts} options={options} />
+      </div>
     </div>
   );
 }

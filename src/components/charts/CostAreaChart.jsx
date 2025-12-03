@@ -1,16 +1,16 @@
 import Highcharts from 'highcharts';
-import HighchartsReact from '@highcharts/react';
+import { Chart as HighchartsChart } from '@highcharts/react';
 import './ChartTheme';
 
 export default function CostAreaChart({ data, budget }) {
   const options = {
     chart: {
       type: 'areaspline',
-      height: 320,
+      height: null,
       width: null,
       backgroundColor: 'transparent',
     },
-    title: null,
+    title: { text: undefined },
     xAxis: {
       categories: data.days,
       title: {
@@ -78,8 +78,10 @@ export default function CostAreaChart({ data, budget }) {
         Cost This Month
       </h3>
       <div className="flex items-center justify-center">
-        <div style={{ width: '90%' }}>
-          <HighchartsReact highcharts={Highcharts} options={options} />
+        <div className="w-full" style={{ maxWidth: '90%' }}>
+          <div className="w-full min-h-[200px] md:min-h-[320px]">
+            <HighchartsChart highcharts={Highcharts} options={options} />
+          </div>
         </div>
       </div>
     </div>

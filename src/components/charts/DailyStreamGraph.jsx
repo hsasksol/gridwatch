@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import HighchartsReact from '@highcharts/react';
+import { Chart as HighchartsChart } from '@highcharts/react';
 import streamgraph from 'highcharts/modules/streamgraph';
 import './ChartTheme';
 
@@ -11,10 +11,10 @@ export default function DailyStreamGraph({ data }) {
   const options = {
     chart: {
       type: 'streamgraph',
-      height: 320,
+      height: null,
       backgroundColor: 'transparent',
     },
-    title: null,
+    title: { text: undefined },
     xAxis: {
       type: 'linear',
       labels: {
@@ -58,7 +58,9 @@ export default function DailyStreamGraph({ data }) {
       <h3 className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-medium mb-2">
         Usage Today (24 Hours)
       </h3>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <div className="w-full min-h-[220px] md:min-h-[320px]">
+        <HighchartsChart highcharts={Highcharts} options={options} />
+      </div>
     </div>
   );
 }

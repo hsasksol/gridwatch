@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import HighchartsReact from '@highcharts/react';
+import { Chart as HighchartsChart } from '@highcharts/react';
 import sankey from 'highcharts/modules/sankey';
 import dependencyWheel from 'highcharts/modules/dependency-wheel';
 import { useTheme } from '../../context/ThemeContext';
@@ -42,10 +42,10 @@ export default function DeviceBreakdownWheel({ data }) {
   
   const options = {
     chart: {
-      height: 400,
+      height: null,
       backgroundColor: 'transparent',
     },
-    title: null,
+    title: { text: undefined },
     legend: {
       enabled: false,
     },
@@ -62,15 +62,7 @@ export default function DeviceBreakdownWheel({ data }) {
         type: 'dependencywheel',
         name: 'Usage',
         dataLabels: {
-          color: textColor,
-          textPath: {
-            enabled: true,
-            attributes: {
-              dy: 5,
-            },
-          },
-          distance: 10,
-          format: '{point.name}',
+          enabled: false,
         },
         size: '95%',
       },
@@ -87,7 +79,9 @@ export default function DeviceBreakdownWheel({ data }) {
       <h3 className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-medium mb-2">
         Usage by Device
       </h3>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <div className="w-full min-h-[240px] md:min-h-[380px]">
+        <HighchartsChart highcharts={Highcharts} options={options} />
+      </div>
     </div>
   );
 }

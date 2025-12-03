@@ -22,6 +22,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Ensure body background follows theme early to avoid white strip on mobile */
+:root {
+  --app-bg: #f9fafb; /* light gray (tailwind gray-50) */
+}
+html.dark {
+  --app-bg: #0f172a; /* tailwind gray-900 */
+}
+body {
+  background-color: var(--app-bg);
+}
+
 input,
 textarea,
 button,
@@ -44,6 +55,15 @@ button:focus-visible,
 a:focus-visible {
   outline: 3px solid #47B79F;
   outline-offset: 2px;
+}
+
+/* Better touch targets for mobile */
+.touch-target {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Screen reader only utility */
