@@ -16,7 +16,7 @@ export default function CurrentUsageGauge({ value = 0, max = 15 }) {
   const { isDark } = useTheme();
   const textColor = isDark ? '#fff' : '#111827';
   const labelColor = isDark ? '#8892a0' : '#6b7280';
-  const bgColor = isDark ? '#22577a' : '#f3f4f6';
+  const bgColor = isDark ? '#1a4d5e' : '#e5e7eb';
   
   const options = {
     chart: {
