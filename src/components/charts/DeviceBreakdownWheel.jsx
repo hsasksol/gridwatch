@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import { Chart, Title, Tooltip, PlotOptions, Series } from '@highcharts/react';
+import { Chart } from '@highcharts/react';
 import sankey from 'highcharts/modules/sankey';
 import dependencyWheel from 'highcharts/modules/dependency-wheel';
 import './ChartTheme';
@@ -36,39 +36,36 @@ export default function DeviceBreakdownWheel({ data }) {
     );
   }
 
+  const options = {
+    chart: { type: 'dependencywheel', backgroundColor: 'transparent' },
+    title: { text: undefined },
+    accessibility: { enabled: true },
+    tooltip: {
+      headerFormat: '',
+      pointFormat: '{point.from} → {point.to}: <b>{point.weight:.1f} kWh</b>',
+      valueDecimals: 1
+    },
+    plotOptions: {
+      dependencywheel: {
+        dataLabels: { enabled: false },
+        size: '95%'
+      }
+    },
+    series: [{
+      keys: ['from', 'to', 'weight'],
+      data: validData,
+      type: 'dependencywheel',
+      name: 'Usage'
+    }]
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 transition-colors">
       <h3 className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-medium mb-2">
         Usage by Device
       </h3>
       <div className="w-full min-h-[240px] md:min-h-[380px]">
-        <Chart
-          type="dependencywheel"
-          styledMode={false}
-          chartOptions={{
-            chart: { backgroundColor: 'transparent' },
-            accessibility: { enabled: true },
-          }}
-        >
-          <Title>Usage by Device</Title>
-          <Tooltip
-            headerFormat=""
-            pointFormat="{point.from} → {point.to}: <b>{point.weight:.1f} kWh</b>"
-            valueDecimals={1}
-          />
-          <PlotOptions
-            dependencywheel={{
-              dataLabels: { enabled: false },
-              size: '95%'
-            }}
-          />
-          <Series
-            type="dependencywheel"
-            keys={['from', 'to', 'weight']}
-            data={validData}
-            name="Usage"
-          />
-        </Chart>
+        <Chart highcharts={Highcharts} options={options} />
       </div>
     </div>
   );
