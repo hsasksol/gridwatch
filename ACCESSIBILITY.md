@@ -8,8 +8,8 @@ This document describes the complete implementation of Highcharts accessibility 
 Highcharts accessibility module is included in the main package but must be imported explicitly:
 
 ```bash
-# No extra package needed - accessibility is part of highcharts core
-npm install highcharts highcharts-react-official
+# Highcharts core + official React v4 wrapper
+npm install highcharts @highcharts/react
 ```
 
 ## 2. Global Configuration in ChartTheme.js
@@ -120,19 +120,19 @@ All chart components automatically inherit the accessibility configuration:
 ### CurrentUsageGauge.jsx
 ```javascript
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import { Chart as HighchartsChart } from '@highcharts/react';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
 import { useTheme } from '../../context/ThemeContext';
 import './ChartTheme';  // Imports global accessibility config
 
-// Component uses Highcharts with accessibility enabled
+// Component uses Highcharts with accessibility enabled (use the named `Chart` export)
 ```
 
 ### DailyStreamGraph.jsx
 ```javascript
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import { Chart as HighchartsChart } from '@highcharts/react';
 import streamgraph from 'highcharts/modules/streamgraph';
 import './ChartTheme';  // Imports global accessibility config
 ```
@@ -140,7 +140,7 @@ import './ChartTheme';  // Imports global accessibility config
 ### DeviceBreakdownWheel.jsx
 ```javascript
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import { Chart as HighchartsChart } from '@highcharts/react';
 import sankey from 'highcharts/modules/sankey';
 import dependencyWheel from 'highcharts/modules/dependency-wheel';
 import { useTheme } from '../../context/ThemeContext';
@@ -150,7 +150,7 @@ import './ChartTheme';  // Imports global accessibility config
 ### CostAreaChart.jsx
 ```javascript
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
+import { Chart as HighchartsChart } from '@highcharts/react';
 import './ChartTheme';  // Imports global accessibility config
 ```
 
