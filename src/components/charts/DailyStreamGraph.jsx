@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import { Chart } from '@highcharts/react';
+import { Chart, XAxis, Tooltip } from '@highcharts/react';
 import streamgraph from 'highcharts/modules/streamgraph';
 import './ChartTheme';
 
@@ -8,53 +8,10 @@ if (typeof streamgraph === 'function') {
 }
 
 export default function DailyStreamGraph({ data }) {
-  const options = {
-    chart: {
-      type: 'streamgraph',
-      height: null,
-      backgroundColor: 'transparent',
-    },
-    title: { text: undefined },
-    accessibility: {
-      enabled: true,
-      description: 'Stacked streamgraph showing hourly energy usage for the day',
-    },
-    xAxis: {
-      type: 'linear',
-      labels: {
-        formatter: function () {
-          return this.value + ':00';
-        },
-      },
-      title: {
-        text: 'Hour',
-      },
-    },
-    yAxis: {
-      visible: false,
-      startOnTick: false,
-      endOnTick: false,
-    },
-    legend: {
-      enabled: true,
-    },
-    plotOptions: {
-      series: {
-        label: {
-          minFontSize: 5,
-          maxFontSize: 15,
-          style: {
-            color: 'rgba(255,255,255,0.75)',
-          },
-        },
-      },
-    },
-    series: data,
-    tooltip: {
-      shared: true,
-      valueSuffix: ' kW',
-      valueDecimals: 1,
-    },
+  const chartProps = {
+    chart: { type: 'streamgraph', backgroundColor: 'transparent' },
+    title: undefined,
+    accessibility: { enabled: true, description: 'Stacked streamgraph showing hourly energy usage for the day' },
   };
 
   return (
@@ -63,7 +20,13 @@ export default function DailyStreamGraph({ data }) {
         Usage Today (24 Hours)
       </h3>
         <div className="w-full min-h-[220px] md:min-h-[320px]">
-        <Chart highcharts={Highcharts} options={options} />
+        <Chart highcharts={Highcharts} {...chartProps}>
+          <XAxis type="linear" title={{ text: 'Hour' }} labels={{ formatter() { return this.value + ':00'; } }} />
+          <Tooltip shared={true} valueSuffix=" kW" valueDecimals={1} />
+          {Array.isArray(data) && data.map((series, idx) => (
+            <Chart.Series key={series.name || idx} {...series} />
+          ))}
+        </Chart>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import { Chart } from '@highcharts/react';
+import { Chart, Tooltip } from '@highcharts/react';
 import sankey from 'highcharts/modules/sankey';
 import dependencyWheel from 'highcharts/modules/dependency-wheel';
 import { useTheme } from '../../context/ThemeContext';
@@ -40,38 +40,19 @@ export default function DeviceBreakdownWheel({ data }) {
     );
   }
   
-  const options = {
-    chart: {
-      height: null,
-      backgroundColor: 'transparent',
-    },
-    title: { text: undefined },
-    legend: {
-      enabled: false,
-    },
-    accessibility: {
-      enabled: true,
-      point: {
-        valueDescriptionFormat: '{index}. {point.from} to {point.to}, {point.weight}.',
-      },
-    },
-    series: [
-      {
-        keys: ['from', 'to', 'weight'],
-        data: validData,
-        type: 'dependencywheel',
-        name: 'Usage',
-        dataLabels: {
-          enabled: false,
-        },
-        size: '95%',
-      },
-    ],
-    tooltip: {
-      headerFormat: '',
-      pointFormat: '{point.from} → {point.to}: <b>{point.weight:.1f} kWh</b>',
-      valueDecimals: 1,
-    },
+  const chartProps = {
+    chart: { backgroundColor: 'transparent' },
+    title: undefined,
+    accessibility: { enabled: true },
+  };
+
+  const seriesProps = {
+    keys: ['from', 'to', 'weight'],
+    data: validData,
+    type: 'dependencywheel',
+    name: 'Usage',
+    dataLabels: { enabled: false },
+    size: '95%'
   };
 
   return (
@@ -80,7 +61,10 @@ export default function DeviceBreakdownWheel({ data }) {
         Usage by Device
       </h3>
         <div className="w-full min-h-[240px] md:min-h-[380px]">
-        <Chart highcharts={Highcharts} options={options} />
+        <Chart highcharts={Highcharts} {...chartProps}>
+          <Tooltip headerFormat={''} pointFormat={'{point.from} → {point.to}: <b>{point.weight:.1f} kWh</b>'} valueDecimals={1} />
+          <Chart.Series {...seriesProps} />
+        </Chart>
       </div>
     </div>
   );
