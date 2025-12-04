@@ -1,8 +1,7 @@
 import Highcharts from 'highcharts';
-import { Chart } from '@highcharts/react';
+import { Chart, Title, Tooltip, PlotOptions, Series } from '@highcharts/react';
 import sankey from 'highcharts/modules/sankey';
 import dependencyWheel from 'highcharts/modules/dependency-wheel';
-import { useTheme } from '../../context/ThemeContext';
 import './ChartTheme';
 
 if (typeof sankey === 'function') {
@@ -13,9 +12,6 @@ if (typeof dependencyWheel === 'function') {
 }
 
 export default function DeviceBreakdownWheel({ data }) {
-  const { isDark } = useTheme();
-  const textColor = isDark ? '#ffffff' : '#111827';
-  
   // Filter out invalid data
   const validData = (data || []).filter(item => 
     item && 
@@ -39,25 +35,6 @@ export default function DeviceBreakdownWheel({ data }) {
       </div>
     );
   }
-  
-  const options = {
-    chart: { backgroundColor: 'transparent' },
-    title: { text: undefined },
-    accessibility: { enabled: true },
-    tooltip: {
-      headerFormat: '',
-      pointFormat: '{point.from} → {point.to}: <b>{point.weight:.1f} kWh</b>',
-      valueDecimals: 1
-    },
-    series: [{
-      keys: ['from', 'to', 'weight'],
-      data: validData,
-      type: 'dependencywheel',
-      name: 'Usage',
-      dataLabels: { enabled: false },
-      size: '95%'
-    }]
-  };
 
   return (
     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 transition-colors">
@@ -65,7 +42,33 @@ export default function DeviceBreakdownWheel({ data }) {
         Usage by Device
       </h3>
       <div className="w-full min-h-[240px] md:min-h-[380px]">
-        <Chart highcharts={Highcharts} options={options} />
+        <Chart
+          type="dependencywheel"
+          styledMode={false}
+          chartOptions={{
+            chart: { backgroundColor: 'transparent' },
+            accessibility: { enabled: true },
+          }}
+        >
+          <Title>Usage by Device</Title>
+          <Tooltip
+            headerFormat=""
+            pointFormat="{point.from} → {point.to}: <b>{point.weight:.1f} kWh</b>"
+            valueDecimals={1}
+          />
+          <PlotOptions
+            dependencywheel={{
+              dataLabels: { enabled: false },
+              size: '95%'
+            }}
+          />
+          <Series
+            type="dependencywheel"
+            keys={['from', 'to', 'weight']}
+            data={validData}
+            name="Usage"
+          />
+        </Chart>
       </div>
     </div>
   );
