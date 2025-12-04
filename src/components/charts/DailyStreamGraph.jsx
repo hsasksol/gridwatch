@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import { Chart as HighchartsChart } from '@highcharts/react';
+import { Chart } from '@highcharts/react';
 import streamgraph from 'highcharts/modules/streamgraph';
 import './ChartTheme';
 
@@ -15,6 +15,10 @@ export default function DailyStreamGraph({ data }) {
       backgroundColor: 'transparent',
     },
     title: { text: undefined },
+    accessibility: {
+      enabled: true,
+      description: 'Stacked streamgraph showing hourly energy usage for the day',
+    },
     xAxis: {
       type: 'linear',
       labels: {
@@ -58,8 +62,8 @@ export default function DailyStreamGraph({ data }) {
       <h3 className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-medium mb-2">
         Usage Today (24 Hours)
       </h3>
-      <div className="w-full min-h-[220px] md:min-h-[320px]">
-        <HighchartsChart highcharts={Highcharts} options={options} />
+        <div className="w-full min-h-[220px] md:min-h-[320px]">
+        <Chart highcharts={Highcharts} options={options} />
       </div>
     </div>
   );

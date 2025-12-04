@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import { Chart as HighchartsChart } from '@highcharts/react';
+import { Chart } from '@highcharts/react';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
 import { useTheme } from '../../context/ThemeContext';
@@ -88,7 +88,7 @@ export default function CurrentUsageGauge({ value = 0, max = 15 }) {
         Current Usage
       </h3>
       <div className="w-full min-h-[200px] md:min-h-[280px]">
-        <HighchartsChart highcharts={Highcharts} options={options} />
+        <Chart highcharts={Highcharts} options={options} />
       </div>
     </div>
   );
