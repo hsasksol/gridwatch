@@ -1,5 +1,5 @@
 import Highcharts from 'highcharts';
-import { Chart } from '@highcharts/react';
+import { Chart, YAxis, Tooltip, PlotOptions } from '@highcharts/react';
 import HighchartsMore from 'highcharts/highcharts-more';
 import SolidGauge from 'highcharts/modules/solid-gauge';
 import { useTheme } from '../../context/ThemeContext';
@@ -18,13 +18,9 @@ export default function CurrentUsageGauge({ value = 0, max = 15 }) {
   const labelColor = isDark ? '#8892a0' : '#6b7280';
   const bgColor = isDark ? '#1a4d5e' : '#e5e7eb';
   
-  const options = {
-    chart: {
-      type: 'solidgauge',
-      height: null,
-      backgroundColor: 'transparent',
-    },
-    title: { text: undefined },
+  const chartProps = {
+    chart: { type: 'solidgauge', backgroundColor: 'transparent' },
+    title: undefined,
     pane: {
       center: ['50%', '60%'],
       size: '100%',
@@ -38,47 +34,18 @@ export default function CurrentUsageGauge({ value = 0, max = 15 }) {
         borderWidth: 0,
       },
     },
-    yAxis: {
-      min: 0,
-      max,
-      stops: [
-        [0.2, '#c7f9cc'],
-        [0.5, '#57cc99'],
-        [0.8, '#38a3a5'],
-        [1, '#22577a'],
-      ],
-      lineWidth: 0,
-      tickWidth: 0,
-      minorTickInterval: null,
-      tickAmount: 0,
-      labels: { enabled: false },
-    },
-    series: [
-      {
-        name: 'Power',
-        data: [value],
-        dataLabels: {
-          format:
-            `<span style="font-size:32px;font-family:Outfit, sans-serif;color:${textColor}">{y:.1f}</span><br/>` +
-            `<span style="font-size:14px;font-family:Outfit, sans-serif;color:${labelColor}">kW</span>`,
-          borderWidth: 0,
-          y: -20,
-        },
-        tooltip: {
-          valueSuffix: ' kW',
-          valueDecimals: 1,
-        },
-      },
-    ],
-    plotOptions: {
-      solidgauge: {
-        innerRadius: '60%',
-        dataLabels: {
-          y: -30,
-          borderWidth: 0,
-          useHTML: true,
-        },
-      },
+    accessibility: { enabled: true, description: 'Solid gauge showing current power usage' },
+  };
+
+  const seriesProps = {
+    name: 'Power',
+    data: [value],
+    dataLabels: {
+      format:
+        `<span style="font-size:32px;font-family:Outfit, sans-serif;color:${textColor}">{y:.1f}</span><br/>` +
+        `<span style="font-size:14px;font-family:Outfit, sans-serif;color:${labelColor}">kW</span>`,
+      borderWidth: 0,
+      y: -20,
     },
   };
 
@@ -88,7 +55,21 @@ export default function CurrentUsageGauge({ value = 0, max = 15 }) {
         Current Usage
       </h3>
       <div className="w-full min-h-[200px] md:min-h-[280px]">
-        <Chart highcharts={Highcharts} options={options} />
+        <Chart highcharts={Highcharts} {...chartProps}>
+          <YAxis
+            min={0}
+            max={max}
+            stops={[[0.2, '#c7f9cc'], [0.5, '#57cc99'], [0.8, '#38a3a5'], [1, '#22577a']]}
+            lineWidth={0}
+            tickWidth={0}
+            minorTickInterval={null}
+            tickAmount={0}
+            labels={{ enabled: false }}
+          />
+          <Tooltip valueSuffix=" kW" valueDecimals={1} />
+          <PlotOptions solidgauge={{ innerRadius: '60%', dataLabels: { y: -30, borderWidth: 0, useHTML: true } }} />
+          <Chart.Series {...seriesProps} />
+        </Chart>
       </div>
     </div>
   );
